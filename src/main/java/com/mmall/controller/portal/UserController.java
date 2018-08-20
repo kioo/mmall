@@ -83,8 +83,5 @@ public class UserController {
         }
         return ServerResponse.createByErrorMessage("用户未登陆，无法获取当前用户的信息");
     }
-    /**
-     * 忘记密码
-     */
-    public ServerResponse<String> forgetGet
+
 }
