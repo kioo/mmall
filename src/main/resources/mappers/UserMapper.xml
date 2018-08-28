@@ -177,12 +177,34 @@
     where username = #{username}
   </select>
 
-  <select id="checkAnswer" resultType="int" parameterType="map">
+  <select id="checkAnswer" resultType="java.lang.Integer" parameterType="map">
     SELECT
     count(1)
     FROM mmall_user
     where username = #{username}
     and question = #{question}
     and answer = #{answer}
+  </select>
+
+  <update id="updatePasswordByUsername" parameterType="map">
+    UPDATE mmall_user
+    SET password = #{passwordNew}, update_time = now()
+    where username = #{username}
+  </update>
+
+  <select id="checkPassword" resultType="java.lang.Integer" parameterType="map">
+    SELECT
+    count(1)
+    FROM mmall_user
+    WHERE id = #{userId}
+    and password = #{password}
+  </select>
+
+  <select id="checkEmailByUserId" resultType="int" parameterType="map">
+    select
+    count(1)
+    from mmall_user
+    where email = #{email}
+    amd id != #{userId}
   </select>
 </mapper>
