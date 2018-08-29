@@ -205,6 +205,6 @@
     count(1)
     from mmall_user
     where email = #{email}
-    amd id != #{userId}
+    and id != #{userId}
   </select>
 </mapper>
