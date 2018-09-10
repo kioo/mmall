@@ -70,19 +70,43 @@ public class ProductManageController {
         }
         return null;
     }
+
+    /**
+     * 实现分页全查询
+     *
+     * @param session
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
     @RequestMapping("list.do")
     @ResponseBody
-    public ServerResponse getList(HttpSession session, @RequestParam(value = "pageNum",defaultValue = "1") int pageNum, @RequestParam(value = "pageSize",defaultValue = "10") int pageSize) {
+    public ServerResponse getList(HttpSession session, @RequestParam(value = "pageNum", defaultValue = "1") int pageNum, @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
         User user = (User) session.getAttribute(Const.CURRENT_USER);
         if (user == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "用户未登陆，请登陆管理员");
         }
         if (iUserService.checkAdminRole(user).isSuccess()) {
-            // 填充业务
-            iProductService.getProductList(pageNum,pageSize);
+            iProductService.getProductList(pageNum, pageSize);
         } else {
             return ServerResponse.createByErrorMessage("无权限操作");
         }
         return null;
+    }
+
+    @RequestMapping("search.do")
+    @ResponseBody
+    public ServerResponse getList(HttpSession session, String productname,
+                                  Integer productId, @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
+                                  @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
+        User user = (User) session.getAttribute(Const.CURRENT_USER);
+        if (user == null) {
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "用户未登陆，请登陆管理员");
+        }
+        if (iUserService.checkAdminRole(user).isSuccess()) {
+            return iProductService.searchProduct(productname, productId, pageNum, pageSize);
+        } else {
+            return ServerResponse.createByErrorMessage("无权限操作");
+        }
     }
 }
