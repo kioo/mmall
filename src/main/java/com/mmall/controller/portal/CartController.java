@@ -18,11 +18,33 @@ public class CartController {
     @Autowired
     private ICartService iCartService;
 
+    @RequestMapping("add.do")
     public ServerResponse add(HttpSession session, Integer count, Integer productId) {
         User user = (User) session.getAttribute(Const.CURRENT_USER);
         if (user == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), ResponseCode.NEED_LOGIN.getDesc());
         }
         return iCartService.add(user.getId(), productId, count);
+    }
+
+    /**
+     * 更新购物车
+     */
+    @RequestMapping("add.do")
+    public ServerResponse update(HttpSession session, Integer count, Integer productId) {
+        User user = (User) session.getAttribute(Const.CURRENT_USER);
+        if (user == null) {
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), ResponseCode.NEED_LOGIN.getDesc());
+        }
+        return iCartService.update(user.getId(), productId, count);
+    }
+
+    @RequestMapping("delete_product.do")
+    public ServerResponse deleteProduct(HttpSession session, String productIds) {
+        User user = (User) session.getAttribute(Const.CURRENT_USER);
+        if (user == null) {
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), ResponseCode.NEED_LOGIN.getDesc());
+        }
+        return iCartService.deleteProduct(user.getId(),productIds);
     }
 }
