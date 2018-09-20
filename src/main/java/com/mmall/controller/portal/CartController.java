@@ -9,6 +9,7 @@ import com.mmall.vo.CartVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
 
@@ -20,13 +21,17 @@ public class CartController {
     private ICartService iCartService;
 
     @RequestMapping("list.do")
+    @ResponseBody
     public ServerResponse list(HttpSession session) {
         User user = (User) session.getAttribute(Const.CURRENT_USER);
         if (user == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), ResponseCode.NEED_LOGIN.getDesc());
         }
         return iCartService.list(user.getId());
-    }@RequestMapping("add.do")
+    }
+
+    @RequestMapping("add.do")
+    @ResponseBody
     public ServerResponse add(HttpSession session, Integer count, Integer productId) {
         User user = (User) session.getAttribute(Const.CURRENT_USER);
         if (user == null) {
@@ -39,6 +44,7 @@ public class CartController {
      * 更新购物车
      */
     @RequestMapping("update.do")
+    @ResponseBody
     public ServerResponse<CartVo> update(HttpSession session, Integer count, Integer productId) {
         User user = (User) session.getAttribute(Const.CURRENT_USER);
         if (user == null) {
@@ -48,6 +54,7 @@ public class CartController {
     }
 
     @RequestMapping("delete_product.do")
+    @ResponseBody
     public ServerResponse deleteProduct(HttpSession session, String productIds) {
         User user = (User) session.getAttribute(Const.CURRENT_USER);
         if (user == null) {
@@ -57,6 +64,7 @@ public class CartController {
     }
     // 全选
     @RequestMapping("select_all.do")
+    @ResponseBody
     public ServerResponse selectAll(HttpSession session) {
         User user = (User) session.getAttribute(Const.CURRENT_USER);
         if (user == null) {
@@ -67,6 +75,7 @@ public class CartController {
 
     //全反选
     @RequestMapping("un_select_all.do")
+    @ResponseBody
     public ServerResponse unSelectAll(HttpSession session) {
         User user = (User) session.getAttribute(Const.CURRENT_USER);
         if (user == null) {
@@ -76,6 +85,7 @@ public class CartController {
     }
     //单独选
     @RequestMapping("select.do")
+    @ResponseBody
     public ServerResponse select(HttpSession session,Integer productId) {
         User user = (User) session.getAttribute(Const.CURRENT_USER);
         if (user == null) {
@@ -85,6 +95,7 @@ public class CartController {
     }
     //单独反选
     @RequestMapping("un_select.do")
+    @ResponseBody
     public ServerResponse unSelect(HttpSession session,Integer productId) {
         User user = (User) session.getAttribute(Const.CURRENT_USER);
         if (user == null) {
@@ -94,6 +105,7 @@ public class CartController {
     }
 
     @RequestMapping("get_cart_product_count.do")
+    @ResponseBody
     public ServerResponse<Integer> getCartProductCount(HttpSession session) {
         User user = (User) session.getAttribute(Const.CURRENT_USER);
         if (user == null) {
